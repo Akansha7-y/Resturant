@@ -1,0 +1,95 @@
+[
+  {
+    "_id": "u_re9q6b7mt",
+    "name": "A ",
+    "email": "qrfwgbs@gmail.com",
+    "password": "$2a$10$dyuL0eDPDbdLfNShZAwBsO/yv48a8HtxfL3Oc9WqoVii1/fGcJkre",
+    "role": "user",
+    "createdAt": "2026-06-30T16:34:07.763Z",
+    "favorites": [],
+    "rewardPoints": 100,
+    "authProvider": "local",
+    "googleId": null,
+    "resetToken": null,
+    "resetTokenExpiry": null
+  },
+  {
+    "_id": "u_mc122om06",
+    "name": "Admin",
+    "email": "admin@etoile.com",
+    "password": "$2a$10$L.vJfVrkN17hdqm74s4AD.GexO4eqyhPPIWIbxRYWkwLzRNgnrBXS",
+    "role": "admin",
+    "createdAt": "2026-06-30T16:41:16.931Z",
+    "favorites": [],
+    "rewardPoints": 100,
+    "authProvider": "local",
+    "googleId": null,
+    "resetToken": null,
+    "resetTokenExpiry": null,
+    "otpHash": null,
+    "otpExpiry": null
+  },
+  {
+    "_id": "u_3t3ajzjgn",
+    "name": "Akansha",
+    "email": "ak1334@gmail.com",
+    "password": "$2a$10$1W0vVvwNsAbzdLgH5e9IW.rddVk7gdwEq6gdyGmqCZ2wwSOY9oIku",
+    "role": "owner",
+    "createdAt": "2026-09-01T13:26:25.210Z"
+  },
+  {
+    "_id": "u_zkpt2u1o3",
+    "name": "d yadav",
+    "email": "dk@gmail.com",
+    "password": "$2a$10$53yzJrVQ.gImhn8A6haRVuVYEoLnz7Yk/ifdN92tthqr3eX24NRCu",
+    "role": "user",
+    "rewardPoints": 100,
+    "otpHash": null,
+    "otpExpiry": null,
+    "createdAt": "2026-09-24T02:54:46.962Z"
+  },
+  {
+    "_id": "u_ljpkhk2vl",
+    "name": "p",
+    "email": "projectesting777@gmail.com",
+    "password": "$2a$10$F8f2lLSDxhjT0kn4edYfquJEJZD6fLKMGn2pQ20.qbJHWImXMjSMi",
+    "role": "user",
+    "rewardPoints": 100,
+    "otpHash": null,
+    "otpExpiry": null,
+    "createdAt": "2026-09-24T03:09:44.728Z"
+  },
+  {
+    "_id": "u_2azucdus8",
+    "name": "Brave Tester",
+    "email": "testbrave@etoile.com",
+    "password": "$2a$10$jpXD9yNAaUzC.qawsbVWs.rqHKvHEvczVphLJBq7ZKgCvhmIFxyae",
+    "role": "user",
+    "rewardPoints": 100,
+    "otpHash": null,
+    "otpExpiry": null,
+    "createdAt": "2026-10-26T09:10:52.250Z"
+  },
+  {
+    "_id": "u_tglkxe6kh",
+    "name": "Demo Guest",
+    "email": "guest@gmail.com",
+    "password": "$2a$10$pCX414yru7hKV11aI5j7ZeeJaXuCk8t/cbhObUwHaZ8z6yk8xGXBq",
+    "role": "user",
+    "rewardPoints": 100,
+    "otpHash": null,
+    "otpExpiry": null,
+    "createdAt": "2026-10-26T09:26:22.587Z"
+  },
+  {
+    "_id": "u_04y7dduyc",
+    "name": "Restaurant Partner",
+    "email": "owner@etoile.com",
+    "password": "$2a$10$xXIkGEmI/NSPh4SlrCD15ejb3qKoDw/rX7xcSVnyLDmn6a9L1SRdq",
+    "role": "owner",
+    "rewardPoints": 100,
+    "otpHash": null,
+    "otpExpiry": null,
+    "createdAt": "2026-10-26T09:34:21.802Z"
+  }
+]

@@ -1,0 +1,388 @@
+[
+  {
+    "_id": "r_french_01",
+    "name": "L'Ambroisie",
+    "image": "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
+    "cuisine": "French",
+    "rating": 4.9,
+    "location": "Downtown Manhattan",
+    "priceRange": "$$$$",
+    "description": "An exquisite three-Michelin-star fine dining experience offering classic French gastronomy. Located in the heart of Downtown, L'Ambroisie combines imperial elegance with timeless culinary perfection. Perfect for romantic dates and celebratory high-end dinners.",
+    "features": [
+      "Valet Parking",
+      "Private Dining Rooms",
+      "Extensive Wine List",
+      "Dress Code Required",
+      "Live Harp Music"
+    ],
+    "workingHours": "5:30 PM - 11:30 PM",
+    "totalTables": 12,
+    "menu": [
+      {
+        "name": "Foie Gras Terrine",
+        "price": 45,
+        "description": "Served with caramelized figs, aged balsamic glaze, and toasted homemade brioche.",
+        "category": "Appetizers"
+      },
+      {
+        "name": "Roasted Sea Bass with Caviar",
+        "price": 85,
+        "description": "Wild sea bass fillet served with white butter sauce and premium sturgeon caviar.",
+        "category": "Main Courses"
+      },
+      {
+        "name": "Classic Beef Rossini",
+        "price": 95,
+        "description": "Prime beef tenderloin topped with seared foie gras, sliced black truffles, and Madeira wine reduction.",
+        "category": "Main Courses"
+      },
+      {
+        "name": "Grand Grand Marnier Soufflé",
+        "price": 25,
+        "description": "Light, warm soufflé infused with orange liqueur, served with Madagascar vanilla bean ice cream.",
+        "category": "Desserts"
+      }
+    ],
+    "reviews": [
+      {
+        "userName": "Sophia Vance",
+        "rating": 5,
+        "comment": "Absolutely celestial experience. The beef Rossini literally melted in my mouth, and the service was flawless. The dark gold styling of the dining hall is stunning.",
+        "createdAt": "2026-06-15T19:30:00Z"
+      },
+      {
+        "userName": "David Miller",
+        "rating": 5,
+        "comment": "Pricey but worth every single penny. It's the gold standard of French fine dining in New York.",
+        "createdAt": "2026-06-18T20:15:00Z"
+      }
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=900&q=80"
+    ],
+    "address": "12 Wall Street, New York, NY 10005",
+    "lat": 40.7074,
+    "lng": -74.0113
+  },
+  {
+    "_id": "r_japanese_02",
+    "name": "Sakura Zen",
+    "image": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=1200&q=80",
+    "cuisine": "Japanese",
+    "rating": 4.8,
+    "location": "Uptown District",
+    "priceRange": "$$$",
+    "description": "A tranquil haven serving authentic Japanese Kaiseki and Omakase. Master chefs craft seasonal menus combining traditional techniques with contemporary aesthetics. Experience harmony on every plate.",
+    "features": [
+      "Sushi Counter",
+      "Sake Pairings",
+      "Traditional Seating",
+      "Chef Interaction"
+    ],
+    "workingHours": "12:00 PM - 10:00 PM",
+    "totalTables": 15,
+    "menu": [
+      {
+        "name": "A5 Wagyu Gyoza",
+        "price": 28,
+        "description": "Pan-seared Japanese A5 Wagyu dumplings, infused with ginger and scallions, served with truffle ponzu.",
+        "category": "Appetizers"
+      },
+      {
+        "name": "Premium Omakase Platter",
+        "price": 75,
+        "description": "12 pieces of chef's daily selection of seasonal Nigiri, including Fatty Tuna (Otoro) and Sea Urchin (Uni).",
+        "category": "Main Courses"
+      },
+      {
+        "name": "Miso Glazed Black Cod",
+        "price": 48,
+        "description": "Succulent cod marinated for 72 hours in sweet saikyo miso, broiled to a caramelized golden brown.",
+        "category": "Main Courses"
+      },
+      {
+        "name": "Matcha Lava Cake",
+        "price": 18,
+        "description": "Warm green tea cake with a molten matcha chocolate center, served with red bean gelato.",
+        "category": "Desserts"
+      }
+    ],
+    "reviews": [
+      {
+        "userName": "Hiroshi Tanaka",
+        "rating": 5,
+        "comment": "Authentic, fresh, and beautifully plated. The sake flight selection is remarkable. Reminds me of top restaurants in Kyoto.",
+        "createdAt": "2026-06-10T18:45:00Z"
+      },
+      {
+        "userName": "Emma Watson",
+        "rating": 4,
+        "comment": "Beautiful ambiance and delicious black cod. Booking online was very easy! Would love to sit at the counter next time.",
+        "createdAt": "2026-06-19T21:00:00Z"
+      }
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=80"
+    ],
+    "address": "845 Madison Ave, New York, NY 10021",
+    "lat": 40.7736,
+    "lng": -73.9566
+  },
+  {
+    "_id": "r_italian_03",
+    "name": "Pizzeria Bella",
+    "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80",
+    "cuisine": "Italian",
+    "rating": 4.6,
+    "location": "Brooklyn Heights",
+    "priceRange": "$$",
+    "description": "Cozy, rustic Italian restaurant specializing in wood-fired Neapolitan pizzas and artisanal handmade pasta. High-quality ingredients imported directly from Campania, served in a lively, warm environment.",
+    "features": [
+      "Wood-fired Oven",
+      "Outdoor Seating",
+      "Family Friendly",
+      "Casual Vibe",
+      "BYOB Option"
+    ],
+    "workingHours": "11:30 AM - 11:00 PM",
+    "totalTables": 25,
+    "menu": [
+      {
+        "name": "Arancini di Riso",
+        "price": 14,
+        "description": "Crispy saffron risotto balls stuffed with molten mozzarella cheese and ragu, served with warm marinara.",
+        "category": "Appetizers"
+      },
+      {
+        "name": "Margherita D.O.C.",
+        "price": 22,
+        "description": "San Marzano tomatoes, fresh buffalo mozzarella, fresh basil leaves, and a drizzle of organic extra virgin olive oil.",
+        "category": "Pizzas"
+      },
+      {
+        "name": "Truffle Gnocchi",
+        "price": 26,
+        "description": "Pillowy potato gnocchi tossed in a rich, creamy white truffle paste, wild mushrooms, and shaved parmesan.",
+        "category": "Pastas"
+      },
+      {
+        "name": "Classic Tiramisu",
+        "price": 12,
+        "description": "Espresso-soaked ladyfingers layered with rich mascarpone cream and dusted with dark cocoa powder.",
+        "category": "Desserts"
+      }
+    ],
+    "reviews": [
+      {
+        "userName": "Marco Rossi",
+        "rating": 5,
+        "comment": "The Margherita pizza crust is perfect - thin, charred, and chewy. Just like Napoli! The gnocchi is super rich.",
+        "createdAt": "2026-06-11T13:00:00Z"
+      },
+      {
+        "userName": "Sarah Jenkins",
+        "rating": 4,
+        "comment": "Lovely patio seating, delicious food, and friendly staff. Highly recommend for family dinners.",
+        "createdAt": "2026-06-20T19:40:00Z"
+      }
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80"
+    ],
+    "address": "55 Clark St, Brooklyn, NY 11201",
+    "lat": 40.696,
+    "lng": -73.9936
+  },
+  {
+    "_id": "r_indian_04",
+    "name": "The Golden Tandoor",
+    "image": "https://images.unsplash.com/photo-1585938338392-50a59970d2ee?auto=format&fit=crop&w=1200&q=80",
+    "cuisine": "Indian",
+    "rating": 4.7,
+    "location": "Theatre District",
+    "priceRange": "$$$",
+    "description": "Immerse yourself in the rich aromas and flavors of subcontinental royalty. We offer a modern twist on royal North and South Indian delicacies, featuring our trademark clay-oven (tandoor) specialties.",
+    "features": [
+      "Buffet Available",
+      "Vegan/Vegetarian Friendly",
+      "Live Music (Sitar)",
+      "Premium Bar"
+    ],
+    "workingHours": "11:00 AM - 10:30 PM",
+    "totalTables": 18,
+    "menu": [
+      {
+        "name": "Tandoori Paneer Tikka",
+        "price": 18,
+        "description": "Cottage cheese chunks marinated in spiced yogurt and grilled to smoky perfection in our clay oven.",
+        "category": "Appetizers"
+      },
+      {
+        "name": "Butter Chicken Deluxe",
+        "price": 32,
+        "description": "Tender tandoori chicken simmered in a creamy, velvety tomato sauce rich in butter, cream, and dry fenugreek leaves.",
+        "category": "Main Courses"
+      },
+      {
+        "name": "Awadhi Lamb Biryani",
+        "price": 36,
+        "description": "Fragrant basmati rice layered with juicy spiced lamb, cooked on 'dum' (slow steam) with saffron and rose water.",
+        "category": "Main Courses"
+      },
+      {
+        "name": "Gulab Jamun with Rabri",
+        "price": 12,
+        "description": "Warm, golden milk-solid dumplings soaked in cardamom sugar syrup, served on a bed of chilled condensed milk cream.",
+        "category": "Desserts"
+      }
+    ],
+    "reviews": [
+      {
+        "userName": "Rohan Sharma",
+        "rating": 5,
+        "comment": "Absolutely outstanding Butter Chicken! The garlic naan was fluffy and buttery. Ambiance is upscale and matches the royal theme.",
+        "createdAt": "2026-06-12T20:00:00Z"
+      }
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1585938338392-50a59970d2ee?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1550963211-0bd1a4d2d0a2?auto=format&fit=crop&w=900&q=80"
+    ],
+    "address": "200 W 44th St, New York, NY 10036",
+    "lat": 40.7589,
+    "lng": -73.9851
+  },
+  {
+    "_id": "r_mexican_05",
+    "name": "El Sombrero",
+    "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=1200&q=80",
+    "cuisine": "Mexican",
+    "rating": 4.5,
+    "location": "Soho",
+    "priceRange": "$$",
+    "description": "Vibrant and high-energy Mexican cocina and cantina in Soho. Famous for artisanal cocktails, hand-pressed blue corn tortillas, and rich, complex moles. Great for group dinners and festive weekend brunches.",
+    "features": [
+      "Tequila & Mezcal Bar",
+      "Happy Hour",
+      "Taco Tuesday Specials",
+      "Live DJ Sets"
+    ],
+    "workingHours": "12:00 PM - 12:00 AM",
+    "totalTables": 22,
+    "menu": [
+      {
+        "name": "Tableside Guacamole",
+        "price": 16,
+        "description": "Fresh Hass avocados smashed at your table with cilantro, lime, onions, tomatoes, and serrano chilies. Served with warm chips.",
+        "category": "Appetizers"
+      },
+      {
+        "name": "Slow-Braised Birria Tacos",
+        "price": 24,
+        "description": "Three corn tortillas stuffed with tender, juicy pulled beef and melted cheese, toasted on the griddle. Served with hot consommé broth for dipping.",
+        "category": "Main Courses"
+      },
+      {
+        "name": "Chipotle Grilled Shrimp",
+        "price": 28,
+        "description": "Jumbo tiger prawns marinated in smoky chipotle adobo, grilled and served over cilantro lime rice with avocado salsa.",
+        "category": "Main Courses"
+      },
+      {
+        "name": "Churros con Chocolate",
+        "price": 10,
+        "description": "Crispy, golden pastry dough dusted with cinnamon sugar, served with warm, thick Mexican chocolate dip.",
+        "category": "Desserts"
+      }
+    ],
+    "reviews": [
+      {
+        "userName": "Carlos Mendez",
+        "rating": 5,
+        "comment": "The Birria Tacos are legendary here! Pair them with their house margaritas. Will definitely book again.",
+        "createdAt": "2026-06-14T21:10:00Z"
+      }
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1550963211-0bd1a4d2d0a2?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80"
+    ],
+    "address": "120 Prince St, New York, NY 10012",
+    "lat": 40.7233,
+    "lng": -74.003
+  },
+  {
+    "_id": "r_cafe_06",
+    "name": "Le Petit Café",
+    "image": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1200&q=80",
+    "cuisine": "Cafe",
+    "rating": 4.4,
+    "location": "Greenwich Village",
+    "priceRange": "$",
+    "description": "A charming, plant-filled Parisian escape in the heart of Greenwich Village. Offering artisan coffees, fresh pastries, and light, health-conscious breakfast/brunch items in a relaxing greenhouse setting.",
+    "features": [
+      "Free Wi-Fi",
+      "Pet Friendly",
+      "Outdoor Patio",
+      "All Day Brunch"
+    ],
+    "workingHours": "8:00 AM - 6:00 PM",
+    "totalTables": 12,
+    "menu": [
+      {
+        "name": "Almond Croissant",
+        "price": 6,
+        "description": "Flaky, buttery croissant filled with rich almond frangipane cream and topped with toasted sliced almonds.",
+        "category": "Bakery"
+      },
+      {
+        "name": "Croissant Benedict",
+        "price": 18,
+        "description": "Two poached organic eggs, smoked ham, and velvety hollandaise sauce served on a split buttery croissant.",
+        "category": "Brunch"
+      },
+      {
+        "name": "Avocado Toast Tartine",
+        "price": 16,
+        "description": "Smashed avocado, heirloom cherry tomatoes, radishes, feta cheese, and microgreens on toasted sourdough bread.",
+        "category": "Brunch"
+      },
+      {
+        "name": "Rose Latte",
+        "price": 7,
+        "description": "Double espresso shot with steamed milk, organic rose-water syrup, and dried rose petals.",
+        "category": "Beverages"
+      }
+    ],
+    "reviews": [
+      {
+        "userName": "Lily Collins",
+        "rating": 4,
+        "comment": "Super cute cafe! Perfect place to read a book or catch up with a friend. The Rose Latte is a work of art.",
+        "createdAt": "2026-06-17T10:30:00Z"
+      }
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1550963211-0bd1a4d2d0a2?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=80"
+    ],
+    "address": "85 W 10th St, New York, NY 10011",
+    "lat": 40.7336,
+    "lng": -74.0027
+  }
+]

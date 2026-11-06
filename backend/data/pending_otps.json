@@ -1,0 +1,14 @@
+[
+  {
+    "email": "newguest@example.com",
+    "otpHash": "$2a$10$ZIXi4scSqTrwGaWTumoGLeoRufav73cc/3wtojB4PceI7piOD6Wyq",
+    "otpExpiry": "2026-09-24T03:11:42.951Z",
+    "createdAt": "2026-09-24T03:01:42.954Z"
+  },
+  {
+    "email": "sfdgbhnetj@gmail.com",
+    "otpHash": "$2a$10$NkvWljQSIA3g0kO1JNZYZ.DEH6LUV6iQC0lRcdmZq/UNudP9Nj9BC",
+    "otpExpiry": "2026-10-30T05:21:58.533Z",
+    "createdAt": "2026-10-30T05:11:58.541Z"
+  }
+]
