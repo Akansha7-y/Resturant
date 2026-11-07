@@ -2,6 +2,25 @@ import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
+async function parseResponse(response, fallbackMsg = 'Request failed') {
+  const text = await response.text();
+  let data = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    // Non-JSON response (e.g. proxy timeout, empty body)
+  }
+
+  if (!response.ok) {
+    const msg = data?.message || (response.status >= 502 && response.status <= 504
+      ? 'Backend server is unreachable. Please ensure the backend is running on port 5000.'
+      : `${fallbackMsg} (${response.status})`);
+    throw new Error(msg);
+  }
+
+  return data || {};
+}
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token') || null);
@@ -86,11 +105,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
+      const data = await parseResponse(response, 'Login failed');
 
       persistSession(data.token, data.user);
       return data.user;
@@ -111,11 +126,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ name, email, password, role }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
-      }
+      const data = await parseResponse(response, 'Registration failed');
 
       persistSession(data.token, data.user);
       return data.user;
@@ -136,12 +147,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to send OTP');
-      }
-
+      const data = await parseResponse(response, 'Failed to send OTP');
       return data;
     } catch (err) {
       setError(err.message);
@@ -160,11 +166,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, otp, name }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'OTP verification failed');
-      }
+      const data = await parseResponse(response, 'OTP verification failed');
 
       persistSession(data.token, data.user);
       return data.user;
@@ -185,12 +187,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to send password reset code');
-      }
-
+      const data = await parseResponse(response, 'Failed to send password reset code');
       return data;
     } catch (err) {
       setError(err.message);
@@ -209,11 +206,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, otp, newPassword }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Password reset failed');
-      }
+      const data = await parseResponse(response, 'Password reset failed');
 
       persistSession(data.token, data.user);
       return data.user;

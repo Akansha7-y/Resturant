@@ -14,7 +14,7 @@ if (!fs.existsSync(DATA_DIR)) {
 let isMongoConnected = false;
 
 export async function connectDB() {
-  const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/restaurant-booking';
+  const mongoURI = process.env.MONGO_URI || process.env.MONGO_URL || 'mongodb://localhost:27017/restaurant-booking';
   
   console.log('Attempting to connect to MongoDB...');
   try {

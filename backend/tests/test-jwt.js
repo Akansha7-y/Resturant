@@ -6,7 +6,7 @@ import {
   requireAdmin, 
   requireOwner, 
   JWT_SECRET 
-} from '../backend/middleware/authMiddleware.js';
+} from '../middleware/authMiddleware.js';
 
 console.log('--- Testing JWT Authentication & Authorization ---');
 
