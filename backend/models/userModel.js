@@ -235,7 +235,7 @@ export const UserModel = {
         LocalDB.write('users.json', users);
       }
     }
-    this.clearPendingOtp(normalizedEmail);
+    await this.clearPendingOtp(normalizedEmail);
   },
 
   async updatePassword(email, newPassword) {
