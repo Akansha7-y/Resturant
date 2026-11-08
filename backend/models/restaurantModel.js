@@ -90,7 +90,7 @@ const restaurantSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-const escapeRegex = (value) => [...String(value)].map(char => ".^$*+?()[]{}|\\\\ ".includes(char) ? "\\\\" + char : char).join("");
+const escapeRegex = (value) => String(value).replace(/[.*+?^\${}()|[\]\\]/g, '\\$&');
 
 const MongoRestaurant = mongoose.models.Restaurant || mongoose.model('Restaurant', restaurantSchema);
 
