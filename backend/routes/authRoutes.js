@@ -13,6 +13,28 @@ import {
 const router = express.Router();
 const OTP_EXPIRY_MINUTES = Number(process.env.OTP_EXPIRY_MINUTES) || 10;
 
+// Lightweight per-process throttling. Use a shared Redis store when running
+// multiple API instances so limits are consistent across replicas.
+const rateBuckets = new Map();
+function rateLimit({ windowMs = 15 * 60 * 1000, max = 10 } = {}) {
+  return (req, res, next) => {
+    const key = `${req.ip || req.socket.remoteAddress || 'unknown'}:${req.baseUrl}${req.path}`;
+    const now = Date.now();
+    let bucket = rateBuckets.get(key);
+    if (!bucket || now >= bucket.resetAt) bucket = { count: 0, resetAt: now + windowMs };
+    bucket.count += 1;
+    rateBuckets.set(key, bucket);
+    if (bucket.count > max) {
+      res.set('Retry-After', String(Math.ceil((bucket.resetAt - now) / 1000)));
+      return res.status(429).json({ message: 'Too many attempts. Please try again later.' });
+    }
+    next();
+  };
+}
+const standardAuthLimit = rateLimit({ max: 20 });
+const otpRequestLimit = rateLimit({ max: 3 });
+const otpVerifyLimit = rateLimit({ max: 5 });
+
 function userResponse(user) {
   return {
     id: user._id,
@@ -46,9 +68,9 @@ function isValidEmail(email) {
 
 // @route   POST api/auth/register
 // @desc    Register a new user & issue JWT
-router.post('/register', async (req, res) => {
+router.post('/register', standardAuthLimit, async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'Please provide name, email, and password.' });
@@ -67,7 +89,7 @@ router.post('/register', async (req, res) => {
       name,
       email,
       password,
-      role: role || 'user'
+      role: 'user'
     });
 
     const token = signToken(user);
@@ -84,7 +106,7 @@ router.post('/register', async (req, res) => {
 
 // @route   POST api/auth/login
 // @desc    Login with email/password & issue JWT
-router.post('/login', async (req, res) => {
+router.post('/login', standardAuthLimit, async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -116,7 +138,7 @@ router.post('/login', async (req, res) => {
 
 // @route   POST api/auth/send-otp
 // @desc    Send OTP to a valid email inbox (works for new + existing users)
-router.post('/send-otp', async (req, res) => {
+router.post('/send-otp', otpRequestLimit, async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -136,14 +158,15 @@ router.post('/send-otp', async (req, res) => {
     try {
       emailResult = await sendOtpEmail(normalizedEmail, otp, OTP_EXPIRY_MINUTES);
     } catch (mailError) {
-      console.warn('Live email dispatch failed, falling back to local OTP server:', mailError.message);
-      console.log(`\n======================================================`);
-      console.log(`🔑 [OTP SERVER (Fallback Delivery)]`);
-      console.log(`📨 Sent To:    ${normalizedEmail}`);
-      console.log(`🔢 OTP Code:   ${otp}`);
-      console.log(`⏳ Valid For:  ${OTP_EXPIRY_MINUTES} minutes`);
-      console.log(`======================================================\n`);
+      console.warn('OTP email delivery failed:', mailError.message);
       emailResult = { simulated: true, otp };
+    }
+
+    if (emailResult.simulated) {
+      return res.status(503).json({
+        success: false,
+        message: 'Email delivery is not configured or is unavailable. Please configure email delivery and try again.'
+      });
     }
 
     console.log(`[OTP] Handled for ${normalizedEmail}${isNewUser ? ' [first-time user]' : ''}`);
@@ -152,9 +175,8 @@ router.post('/send-otp', async (req, res) => {
       success: true,
       isNewUser,
       simulated: emailResult.simulated,
-      devOtp: emailResult.simulated ? otp : undefined,
       message: emailResult.simulated
-        ? `OTP Code: ${otp} (Local OTP server generated code)`
+        ? 'Email delivery is unavailable. Please try again later or contact support.'
         : (isNewUser
             ? `OTP sent to ${normalizedEmail}. Check your inbox to create your account.`
             : `OTP sent to ${normalizedEmail}. Check your inbox — valid for ${OTP_EXPIRY_MINUTES} minutes.`),
@@ -168,7 +190,7 @@ router.post('/send-otp', async (req, res) => {
 
 // @route   POST api/auth/verify-otp
 // @desc    Verify OTP; create account on first-time login, then issue JWT
-router.post('/verify-otp', async (req, res) => {
+router.post('/verify-otp', otpVerifyLimit, async (req, res) => {
   try {
     const { email, otp, name } = req.body;
 
@@ -205,7 +227,7 @@ router.post('/verify-otp', async (req, res) => {
 
 // @route   POST api/auth/forgot-password
 // @desc    Initiate password reset: verify user exists and send secure reset OTP
-router.post('/forgot-password', async (req, res) => {
+router.post('/forgot-password', otpRequestLimit, async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -230,14 +252,15 @@ router.post('/forgot-password', async (req, res) => {
     try {
       emailResult = await sendOtpEmail(normalizedEmail, otp, OTP_EXPIRY_MINUTES);
     } catch (mailError) {
-      console.warn('Live reset email delivery failed, using local OTP server fallback:', mailError.message);
-      console.log(`\n======================================================`);
-      console.log(`🔑 [PASSWORD RESET OTP]`);
-      console.log(`📨 Sent To:    ${normalizedEmail}`);
-      console.log(`🔢 Reset Code: ${otp}`);
-      console.log(`⏳ Valid For:  ${OTP_EXPIRY_MINUTES} minutes`);
-      console.log(`======================================================\n`);
+      console.warn('Password reset email delivery failed:', mailError.message);
       emailResult = { simulated: true, otp };
+    }
+
+    if (emailResult.simulated) {
+      return res.status(503).json({
+        success: false,
+        message: 'Email delivery is not configured or is unavailable. Please try again later.'
+      });
     }
 
     console.log(`[PASSWORD RESET] Requested for ${normalizedEmail}`);
@@ -245,10 +268,9 @@ router.post('/forgot-password', async (req, res) => {
     res.json({
       success: true,
       simulated: emailResult.simulated,
-      devOtp: emailResult.simulated ? otp : undefined,
       message: emailResult.simulated
-        ? `Reset code: ${otp} (Local OTP server code)`
-        : `A password reset code has been sent to ${normalizedEmail}.`,
+        ? 'Email delivery is unavailable. Please try again later or contact support.'
+        : 'A password reset code has been sent to your registered email address.',
       expiresInMinutes: OTP_EXPIRY_MINUTES
     });
   } catch (error) {
@@ -259,7 +281,7 @@ router.post('/forgot-password', async (req, res) => {
 
 // @route   POST api/auth/reset-password
 // @desc    Verify OTP and reset account password, then issue new JWT session
-router.post('/reset-password', async (req, res) => {
+router.post('/reset-password', otpVerifyLimit, async (req, res) => {
   try {
     const { email, otp, newPassword } = req.body;
 

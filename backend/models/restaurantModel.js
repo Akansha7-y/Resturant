@@ -2,7 +2,26 @@ import mongoose from 'mongoose';
 import { isConnectedToMongo, LocalDB } from '../config/db.js';
 
 // Mongoose Schemas
+const reviewLikeSchema = new mongoose.Schema({
+  userId: { type: String, required: true },
+  userName: { type: String, default: '' },
+  at: { type: Date, default: Date.now }
+}, { _id: false });
+
+const reviewCommentSchema = new mongoose.Schema({
+  _id: { type: String },
+  userId: { type: String, required: true },
+  userName: { type: String, default: '' },
+  text: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+}, { _id: false });
+
 const reviewSchema = new mongoose.Schema({
+  _id: { type: String },
+  userId: { type: String, default: null },
+  likes: { type: [reviewLikeSchema], default: [] },
+  comments: { type: [reviewCommentSchema], default: [] },
+  photos: { type: [String], default: [] },
   userName: { type: String, required: true },
   rating: { type: Number, required: true, min: 1, max: 5 },
   comment: { type: String, required: true },
@@ -71,6 +90,8 @@ const restaurantSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+const escapeRegex = (value) => String(value).replace(/[.*+?^\${}()|[\]\\]/g, '\\$&');
+
 const MongoRestaurant = mongoose.models.Restaurant || mongoose.model('Restaurant', restaurantSchema);
 
 // Unified Restaurant Data Access Layer
@@ -78,11 +99,11 @@ export const RestaurantModel = {
   async find(filters = {}) {
     if (isConnectedToMongo()) {
       let query = {};
-      if (filters.cuisine) query.cuisine = new RegExp(filters.cuisine, 'i');
-      if (filters.location) query.location = new RegExp(filters.location, 'i');
+      if (filters.cuisine) query.cuisine = new RegExp(escapeRegex(filters.cuisine), 'i');
+      if (filters.location) query.location = new RegExp(escapeRegex(filters.location), 'i');
       if (filters.search) {
         query.$or = [
-          { name: new RegExp(filters.search, 'i') },
+          { name: new RegExp(escapeRegex(filters.search), 'i') },
           { cuisine: new RegExp(filters.search, 'i') },
           { location: new RegExp(filters.search, 'i') }
         ];

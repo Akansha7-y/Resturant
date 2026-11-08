@@ -28,6 +28,14 @@ userSchema.pre('save', async function(next) {
 
 const MongoUser = mongoose.models.User || mongoose.model('User', userSchema);
 
+const pendingOtpSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  otpHash: { type: String, required: true },
+  otpExpiry: { type: Date, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+const MongoPendingOtp = mongoose.models.PendingOtp || mongoose.model('PendingOtp', pendingOtpSchema);
+
 function sanitizeUser(user) {
   if (!user) return null;
   const plain = typeof user.toObject === 'function' ? user.toObject() : { ...user };
@@ -62,7 +70,8 @@ export const UserModel = {
         ...userData,
         email: userData.email.toLowerCase()
       });
-      return await user.save();
+      const saved = await user.save();
+      return sanitizeUser(saved);
     } else {
       const users = LocalDB.read('users.json');
 
@@ -75,7 +84,7 @@ export const UserModel = {
         email: userData.email.toLowerCase(),
         password: hashedPassword,
         role: userData.role || 'user',
-        rewardPoints: 100,
+        rewardPoints: 0,
         otpHash: null,
         otpExpiry: null,
         createdAt: new Date().toISOString()
@@ -118,6 +127,15 @@ export const UserModel = {
     }
 
     // First-time: store OTP in pending_otps until verified
+    if (isConnectedToMongo()) {
+      await MongoPendingOtp.findOneAndUpdate(
+        { email: normalizedEmail },
+        { email: normalizedEmail, otpHash, otpExpiry, createdAt: new Date() },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      );
+      return { isNewUser: true, user: null };
+    }
+
     const pending = LocalDB.read('pending_otps.json', []);
     const filtered = pending.filter(p => p.email !== normalizedEmail);
     filtered.push({
@@ -155,14 +173,15 @@ export const UserModel = {
     }
 
     // First-time login: check pending OTP store
-    const pending = LocalDB.read('pending_otps.json', []);
-    const record = pending.find(p => p.email === normalizedEmail);
+    const record = isConnectedToMongo()
+      ? await MongoPendingOtp.findOne({ email: normalizedEmail })
+      : LocalDB.read('pending_otps.json', []).find(p => p.email === normalizedEmail);
     if (!record) {
       return { valid: false, reason: 'No OTP requested for this email.' };
     }
 
     if (Date.now() > new Date(record.otpExpiry).getTime()) {
-      this.clearPendingOtp(normalizedEmail);
+      await this.clearPendingOtp(normalizedEmail);
       return { valid: false, reason: 'OTP has expired. Please request a new one.' };
     }
 
@@ -184,11 +203,15 @@ export const UserModel = {
       role: 'user'
     });
 
-    this.clearPendingOtp(normalizedEmail);
+    await this.clearPendingOtp(normalizedEmail);
     return { valid: true, isNewUser: true, user };
   },
 
-  clearPendingOtp(email) {
+  async clearPendingOtp(email) {
+    if (isConnectedToMongo()) {
+      await MongoPendingOtp.deleteOne({ email: email.toLowerCase() });
+      return;
+    }
     const pending = LocalDB.read('pending_otps.json', []);
     LocalDB.write(
       'pending_otps.json',
@@ -212,7 +235,7 @@ export const UserModel = {
         LocalDB.write('users.json', users);
       }
     }
-    this.clearPendingOtp(normalizedEmail);
+    await this.clearPendingOtp(normalizedEmail);
   },
 
   async updatePassword(email, newPassword) {

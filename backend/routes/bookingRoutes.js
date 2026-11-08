@@ -20,6 +20,42 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: 'Restaurant not found.' });
     }
 
+    const requestedGuests = Number(guests);
+    if (!Number.isInteger(requestedGuests) || requestedGuests < 1 || requestedGuests > 30) {
+      return res.status(400).json({ message: 'Guest count must be a whole number between 1 and 30.' });
+    }
+    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(date)) || Number.isNaN(Date.parse(date))) {
+      return res.status(400).json({ message: 'Please provide a valid booking date.' });
+    }
+    if (new Date(`${date}T00:00:00`) < new Date(new Date().toISOString().slice(0, 10) + 'T00:00:00')) {
+      return res.status(400).json({ message: 'Booking date cannot be in the past.' });
+    }
+
+    const activeStatuses = ['pending_payment', 'pending_approval', 'confirmed'];
+    const existingBookings = await BookingModel.find({ restaurantId });
+    const sameSlot = existingBookings.filter(b =>
+      b.date === date && b.time === time && activeStatuses.includes(b.status)
+    );
+    const tables = Array.isArray(restaurant.tables) ? restaurant.tables : [];
+    if (tables.length) {
+      const occupiedTableIds = new Set(sameSlot.map(b => b.tableId).filter(Boolean));
+      const availableTables = tables.filter(t =>
+        t.available !== false &&
+        !occupiedTableIds.has(t._id) &&
+        (!seatingArea || t.seatingArea === seatingArea) &&
+        Number(t.capacity) >= requestedGuests
+      );
+      if (!availableTables.length || sameSlot.length >= availableTables.length) {
+        return res.status(409).json({ message: 'No suitable tables are available for this date, time, guest count, and seating preference.' });
+      }
+    } else {
+      const capacity = Number(restaurant.totalTables) || 0;
+      const occupied = sameSlot.length;
+      if (capacity > 0 && occupied >= capacity) {
+        return res.status(409).json({ message: 'This restaurant has no remaining capacity for the selected time.' });
+      }
+    }
+
     // Mock Booking Price - say, deposit of $15 per person to hold a premium table
     const bookingDepositAmount = guests * 15;
 
@@ -32,7 +68,7 @@ router.post('/', authenticateToken, async (req, res) => {
       restaurantImage: restaurant.image,
       date,
       time,
-      guests,
+      guests: requestedGuests,
       seatingArea: seatingArea || 'Standard',
       specialRequests,
       status: 'pending_payment',

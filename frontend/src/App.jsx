@@ -139,18 +139,21 @@ function Footer() {
 
 // Protected Route components
 function ProtectedRoute({ children }) {
-  const { token } = useContext(AuthContext);
+  const { token, loading } = useContext(AuthContext);
+  if (loading) return <div role="status" aria-live="polite">Checking your session…</div>;
   return token ? children : <Navigate to="/auth" replace />;
 }
 
 function AdminRoute({ children }) {
-  const { token, user } = useContext(AuthContext);
+  const { token, user, loading } = useContext(AuthContext);
+  if (loading) return <div role="status" aria-live="polite">Checking your session…</div>;
   return token && user?.role === 'admin' ? children : <Navigate to="/dashboard" replace />;
 }
 
 function OwnerRoute({ children }) {
-  const { token, user } = useContext(AuthContext);
-  return token && user?.role === 'owner' ? children : <Navigate to="/dashboard" replace />;
+  const { token, user, loading } = useContext(AuthContext);
+  if (loading) return <div role="status" aria-live="polite">Checking your session…</div>;
+  return token && ['owner', 'admin'].includes(user?.role) ? children : <Navigate to="/dashboard" replace />;
 }
 
 function AppContent() {
@@ -252,7 +255,6 @@ const styles = {
     alignItems: 'center',
   },
   navLink: {
-    fontSize: '0.95rem',
     fontWeight: '600',
     letterSpacing: '0.5px',
     transition: 'var(--transition-fast)',
