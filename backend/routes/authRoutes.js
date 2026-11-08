@@ -256,6 +256,13 @@ router.post('/forgot-password', otpRequestLimit, async (req, res) => {
       emailResult = { simulated: true, otp };
     }
 
+    if (emailResult.simulated) {
+      return res.status(503).json({
+        success: false,
+        message: 'Email delivery is not configured or is unavailable. Please try again later.'
+      });
+    }
+
     console.log(`[PASSWORD RESET] Requested for ${normalizedEmail}`);
 
     res.json({
