@@ -40,7 +40,7 @@ export default function RestaurantList() {
     fetch(query)
       .then(res => res.json())
       .then(data => {
-        setRestaurants(data);
+        setRestaurants(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(err => {
