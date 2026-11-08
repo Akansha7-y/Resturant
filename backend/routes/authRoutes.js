@@ -162,6 +162,13 @@ router.post('/send-otp', otpRequestLimit, async (req, res) => {
       emailResult = { simulated: true, otp };
     }
 
+    if (emailResult.simulated) {
+      return res.status(503).json({
+        success: false,
+        message: 'Email delivery is not configured or is unavailable. Please configure email delivery and try again.'
+      });
+    }
+
     console.log(`[OTP] Handled for ${normalizedEmail}${isNewUser ? ' [first-time user]' : ''}`);
 
     res.json({
