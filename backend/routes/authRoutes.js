@@ -158,13 +158,7 @@ router.post('/send-otp', otpRequestLimit, async (req, res) => {
     try {
       emailResult = await sendOtpEmail(normalizedEmail, otp, OTP_EXPIRY_MINUTES);
     } catch (mailError) {
-      console.warn('Live email dispatch failed, falling back to local OTP server:', mailError.message);
-      console.log(`\n======================================================`);
-      console.log(`🔑 [OTP SERVER (Fallback Delivery)]`);
-      console.log(`📨 Sent To:    ${normalizedEmail}`);
-      console.log(`🔢 OTP Code:   ${otp}`);
-      console.log(`⏳ Valid For:  ${OTP_EXPIRY_MINUTES} minutes`);
-      console.log(`======================================================\n`);
+      console.warn('OTP email delivery failed:', mailError.message);
       emailResult = { simulated: true, otp };
     }
 
@@ -251,13 +245,7 @@ router.post('/forgot-password', otpRequestLimit, async (req, res) => {
     try {
       emailResult = await sendOtpEmail(normalizedEmail, otp, OTP_EXPIRY_MINUTES);
     } catch (mailError) {
-      console.warn('Live reset email delivery failed, using local OTP server fallback:', mailError.message);
-      console.log(`\n======================================================`);
-      console.log(`🔑 [PASSWORD RESET OTP]`);
-      console.log(`📨 Sent To:    ${normalizedEmail}`);
-      console.log(`🔢 Reset Code: ${otp}`);
-      console.log(`⏳ Valid For:  ${OTP_EXPIRY_MINUTES} minutes`);
-      console.log(`======================================================\n`);
+      console.warn('Password reset email delivery failed:', mailError.message);
       emailResult = { simulated: true, otp };
     }
 
