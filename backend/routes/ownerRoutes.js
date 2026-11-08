@@ -269,6 +269,28 @@ router.put('/bookings/:id/accept', authenticateToken, requireOwner, requireOwner
       return res.status(400).json({ message: 'Booking cannot be accepted in its current state.' });
     }
     const { tableId } = req.body;
+    if (tableId) {
+      const table = (req.restaurant.tables || []).find(t => t._id === tableId);
+      if (!table || table.available === false) {
+        return res.status(400).json({ message: 'Selected table does not belong to this restaurant or is unavailable.' });
+      }
+      if (Number(table.capacity) < Number(booking.guests)) {
+        return res.status(400).json({ message: 'Selected table cannot accommodate the guest count.' });
+      }
+      const existingBookings = await BookingModel.find({ restaurantId: req.restaurant._id });
+      const conflict = existingBookings.some(b =>
+        b._id !== booking._id &&
+        b.tableId === tableId &&
+        b.date === booking.date &&
+        b.time === booking.time &&
+        ['pending_approval', 'confirmed'].includes(b.status)
+      );
+      if (conflict) {
+        return res.status(409).json({ message: 'This table is already assigned to another reservation for the selected time.' });
+      }
+    } else if (!booking.tableId) {
+      return res.status(400).json({ message: 'Please assign a table before confirming this booking.' });
+    }
     const updated = await BookingModel.findOneAndUpdate(req.params.id, {
       status: 'confirmed',
       tableId: tableId || booking.tableId
