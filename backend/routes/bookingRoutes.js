@@ -45,7 +45,7 @@ router.post('/', authenticateToken, async (req, res) => {
         (!seatingArea || t.seatingArea === seatingArea) &&
         Number(t.capacity) >= requestedGuests
       );
-      if (!availableTables.length) {
+      if (!availableTables.length || sameSlot.length >= availableTables.length) {
         return res.status(409).json({ message: 'No suitable tables are available for this date, time, guest count, and seating preference.' });
       }
     } else {
