@@ -211,7 +211,7 @@ export default function RestaurantDetails() {
         throw new Error(data.message || 'Failed to submit review');
       }
 
-      setRestaurant(data);
+      setRestaurant(data.restaurant || data);
       setReviewComment('');
       setReviewRating(5);
       setReviewSubmitting(false);
@@ -266,12 +266,13 @@ export default function RestaurantDetails() {
   }
 
   // Get distinct menu categories
-  const categories = ['All', ...new Set(restaurant.menu.map(item => item.category))];
+  const menuItems = Array.isArray(restaurant.menu) ? restaurant.menu : [];
+  const categories = ['All', ...new Set(menuItems.map(item => item.category))];
 
   // Filtered menu
   const filteredMenu = activeTab === 'All' 
-    ? restaurant.menu 
-    : restaurant.menu.filter(item => item.category === activeTab);
+    ? menuItems 
+    : menuItems.filter(item => item.category === activeTab);
 
   const depositFee = bookingGuests * 15;
 
