@@ -206,7 +206,7 @@ export function summarizeReviews(restaurant) {
       if (w.length > 3 && !stop.has(w)) wordBag[w] = (wordBag[w] || 0) + 1;
     });
   });
-  const topWords = Object.entries(wordFreq).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([w]) => w);
+  const topWords = Object.entries(wordBag).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([w]) => w);
 
   const highlights = positive.slice(0, 3).map(r => r.comment);
   const sentiment = avg >= 4.3 ? 'excellent' : avg >= 3.5 ? 'positive' : avg >= 2.5 ? 'mixed' : 'critical';
