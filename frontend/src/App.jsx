@@ -139,7 +139,8 @@ function Footer() {
 
 // Protected Route components
 function ProtectedRoute({ children }) {
-  const { token } = useContext(AuthContext);
+  const { token, loading } = useContext(AuthContext);
+  if (loading) return <div role="status" aria-live="polite">Checking your session…</div>;
   return token ? children : <Navigate to="/auth" replace />;
 }
 
